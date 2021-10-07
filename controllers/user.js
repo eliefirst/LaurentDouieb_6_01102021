@@ -1,51 +1,53 @@
-// ---------------- IMPORTATIONS GÉNÉRALES ---------------------- // 
-
-// Importation du package de chiffrement bcrypt pour crypter les mots de passe
+//bcrypt pour crypter les mots de passe
+//créer et vérifier les tokens d'authentification
+//'User' deux fonctions 'signup' et 'login'
+//crypte email++ Maskdata
 const bcrypt = require('bcrypt');
-
-// Importation du package pour créer et vérifier les tokens d'authentification
 const jwt = require('jsonwebtoken');
-
-// Importatin du modèle 'User' pour l'utiliser dans les deux fonctions 'signup' et 'login'
+const Maskdata = require('maskdata');
 const User = require('../models/User');
 
-
-
-// --------------------- CONTROLLERS ---------------------- // 
-
-// ---- Fonction/Middleware 'signup' permettant d'enregistrer de nouveaux utilisateurs ---- //
-
-// Fonction permet le cryptage du mot de passe, et créer un utilisateur avec le mdp crypté dans la base de données
 exports.signup = (req, res, next) => {
+    const emailMask2Options = {
+        maskWith: "*",
+        unmaskedStartCharactersBeforeAt: 3,
+        unmaskedEndCharactersAfterAt: 5,
+        maskAtTheRate: false
+    };
+    const email = req.body.email;
     // Nous appelons la fonction de hachage de bcrypt dans notre mot de passe et lui demandons de « saler » le mot de passe 10 fois.
-    bcrypt.hash(req.body.password, 10) 
+    bcrypt.hash(req.body.password, 10)
         // Fonction asynchrone qui renvoie une Promise dans laquelle nous recevons le hash généré
         .then(hash => {
-            // Nous créons un utilisateur et l'enregistrons dans la base de données
+            // Un utilisateur et l'enregistrons dans la base de données +maskdata pour cacher string mail
             const user = new User({
-                email: req.body.email,
+                email: Maskdata.maskEmail2(email, emailMask2Options),
                 password: hash
             });
-            // Enregistrement du nouvel utilisateur
             user.save()
-                // Si la promesse se résout, on indique que l'utilisateur a bien été créé
-                .then(() => res.status(201).json({ message: 'Utilisateur créé !'}))
-                // Sinon un message d'erreur s'affiche
+
+                .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
                 .catch(error => res.status(400).json({ error }));
         })
-        // Sinon un message d'erreur s'affiche
         .catch(error => res.status(500).json({ error }));
 };
 
 // ---- Fonction/Middleware 'login' permettant de connecter les utilisateurs existants ---- //
 
 exports.login = (req, res, next) => {
+    const emailMask2Options = {
+        maskWith: "*",
+        unmaskedStartCharactersBeforeAt: 3,
+        unmaskedEndCharactersAfterAt: 5,
+        maskAtTheRate: false
+    };
     // Récupération de l'utilisateur de la base de données qui correspond à l'adresse email rentrée
-    User.findOne({ email: req.body.email })
-        // Si l'utilisateur n'est pas reconnu on envoie une erreur
+    const email = req.body.email;
+
+    User.findOne({ email: Maskdata.maskEmail2(email, emailMask2Options) })
         .then(user => {
             if (!user) {
-                return res.status(401).json({ error: 'Utilisateur non trouvé ! '});
+                return res.status(401).json({ error: 'Utilisateur non trouvé ! ' })
             }
             // Comparaison du mdp rentré avec le hash qui est gardé dans la base de données
             bcrypt.compare(req.body.password, user.password)
@@ -54,7 +56,6 @@ exports.login = (req, res, next) => {
                     if (!valid) {
                         return res.status(401).json({ error: 'Mot de passe incorrect !' });
                     }
-                    // Si la comparaison est bonne (il a été rentré les identifiants valables)
                     // On renvoie l'identifiant de l'utilisateur et un TOKEN permettant de se connecter à sa session
                     res.status(200).json({
                         userId: user._id,
@@ -64,14 +65,11 @@ exports.login = (req, res, next) => {
                             { userId: user._id },
                             // Chaîne secrète de développement temporaire pour encoder notre token (à remplacer par une chaîne aléatoire beaucoup plus longue pour la production)
                             process.env.TOKEN_SECRET_KEY,
-                            // Durée de validité du token : 24 heures
                             { expiresIn: '24h' }
                         )
                     });
                 })
-                // Sinon un message d'erreur s'affiche
                 .catch(error => res.status(500).json({ error }));
         })
-        // Sinon un message d'erreur s'affiche
         .catch(error => res.status(500).json({ error }));
 };

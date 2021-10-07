@@ -1,39 +1,23 @@
-// ---------------- IMPORTATIONS GÉNÉRALES ---------------------- // 
-
-// Importation d'Express
+// ----------------IMPORTATIONS GÉNÉRALES
 const express = require('express'); 
-
-// Importation de Path pour accéder au path de notre serveur
 const path = require('path'); 
-
-// Importation du plugin Mongoose pour se connecter à la base de données
 const mongoose = require('mongoose');
-
 // Importation de Cors (pour éviter erreur CORS)
 const cors = require('cors');
-
-
-
-// ----------------- IMPORTATIONS SÉCURITÉ ---------------------- //
-
+// -----------------IMPORTATIONS SÉCURITÉ
 // Importation du plugin mongo-sanitize pour se protéger des injections SQL
 const mongoSanitize = require('express-mongo-sanitize');
-
 // Importation du plugin helmet pour sécuriser les en-têtes HTTP
 const helmet = require("helmet");
-
 // Importation de express-rate-limit pour prévenir les attaques par force brute (envoi d'un flux infini de requêtes à une API)
 const rateLimit = require("express-rate-limit");
-
 // Limitation du nombre de connexions d'un seul utilisateur (en lien avec rateLimit)
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // à 15 minutes
   max: 100 // et chaque adresse IP est limitée à 100 requêtes
 });
 
-
-
-// ----------------- CONNEXION MONGO DB ---------------------- //
+// -----------------CONNEXION MONGO
 
 // Utilisation de variables d'environnement pour récupérer les informations confidentielles (localisées dans fichier .env)
 require('dotenv').config();
@@ -47,14 +31,14 @@ mongoose.connect(process.env.MONGO_DB,
 
 
 
-// ----------------- IMPORTATIONS ROUTEURS ---------------------- //
+// ----------------IMPORTATIONS ROUTEURS
 
 const userRoutes = require('./routes/user');
 const saucesRoutes = require('./routes/sauces');
 
 
 
-// ----------------------- MIDDLEWARES --------------------------- //
+// -----------------------MIDDLEWARES
 // app.use = Applique le middleware à toutes les requêtes
 
 // Fonction permettant d'appeler la fonction express (créer une application Express)
@@ -99,8 +83,6 @@ app.use('/api/auth', userRoutes);
 app.use('/api/sauces', saucesRoutes);
 
 
-
-// ----------------------- EXPORTATIONS --------------------------- //
 
 // Exporter cette application pour pouvoir y accéder depuis d'autres fichiers du projet (serveur Node)
 module.exports = app;
