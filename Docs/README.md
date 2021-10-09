@@ -13,4 +13,4 @@ npm install --save express
 touch app.js
 npm start
 nodemon server
-npm i maskdata
+npm i maskdata --save
