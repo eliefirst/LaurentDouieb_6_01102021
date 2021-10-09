@@ -1,6 +1,4 @@
-// ---------------- IMPORTATIONS GÉNÉRALES ---------------------- // 
 
-// Importatin du modèle 'Sauces' pour l'utiliser dans les fonctions
 const Sauce = require('../models/Sauces');
 
 // Importation du modèle 'Like' pour l'utiliser dans les fonctions
@@ -8,12 +6,7 @@ const Like = require('../models/Like');
 
 // Importation de file system pour la gestion des fichiers (de Node)
 const fs = require('fs');
-
-
-
-// --------------------- CONTROLLERS ---------------------- // 
-
-// ---- Fonction permettant de créer un objet 'sauce' ---- //
+// ---- Fonction créer un objet  //
 
 exports.createSauce = (req, res, next) => {
     // Récupération et transformation du req.body.sauce (string) en objet JS utilisable
@@ -60,8 +53,7 @@ exports.modifySauce =  (req, res, next) => {
         // Sinon un message d'erreur s'affiche
         .catch(error => res.status(400).json({ error }));
 };
-
-// ---- Fonction permettant de supprimer un objet 'sauce' ---- //
+//Fonction permettant de supprimer un objet 
 
 exports.deleteSauce = (req, res, next) => {
     // Recherche dans la base de données de la sauce à supprimer avec son identifiant
@@ -84,8 +76,7 @@ exports.deleteSauce = (req, res, next) => {
         .catch(error => res.status(500).json({ error }));
 }; 
 
-// ---- Fonction permettant de récupérer un seul objet 'sauce' ---- //
-
+// ---- Fonction permettant de récupérer un seul objet
 exports.getOneSauce = (req, res, next) => {
     // Recherche dans la base de données de la sauce avec son identifiant
     Sauce.findOne({ _id: req.params.id })
@@ -95,7 +86,7 @@ exports.getOneSauce = (req, res, next) => {
         .catch(error => res.status(404).json({ error }));
 };
 
-// ---- Fonction permettant de récupérer tous les objets 'sauce' ---- //
+// ---- Fonction permettant de récupérer tous les objets
 
 exports.getAllSauces = (req, res, next) => {
     // Recherche dans la base de données de toutes les sauces
@@ -106,7 +97,7 @@ exports.getAllSauces = (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
 };
 
-// ---- Fonction permettant de liker ou disliker un objet 'sauce' ---- //
+// ---- Fonction permettant de liker ou disliker un objet
 
 exports.likeOrDislikeSauce = (req, res, next) => {
 

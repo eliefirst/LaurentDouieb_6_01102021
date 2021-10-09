@@ -1,12 +1,5 @@
-// ---------------- IMPORTATIONS GÉNÉRALES ---------------------- // 
-
 // Importation de multer
 const multer = require('multer');
-
-
-
-// --------------------- MIDDLEWARES ---------------------- // 
-
 // Déclaration d'une constante pour générer une extension de fichier (jpg ou png)
 const MIME_TYPES = {
     'image/jpg': 'jpg',
@@ -16,7 +9,7 @@ const MIME_TYPES = {
 
 // Objet de configuration de multer 
 // Permet l'enregistrement sur le disque 
-const storage = multer.diskStorage ({
+const storage = multer.diskStorage({
     // 1er argument : destination / Explication à multer dans quel dossier enregistré le fichier image
     destination: (req, file, callback) => {
         callback(null, 'images')
@@ -32,9 +25,5 @@ const storage = multer.diskStorage ({
 // Déclaration d'une constante pour limiter la taille des images téléchargées
 const maxFileSize = 1 * 1024 * 1024;
 
-
-
-// --------------------- EXPORTATIONS ---------------------- //
-
 // Exportation du middleware complètement configuré
-module.exports = multer({ storage, limits: {fileSize: maxFileSize} }).single('image');
+module.exports = multer({ storage, limits: { fileSize: maxFileSize } }).single('image');

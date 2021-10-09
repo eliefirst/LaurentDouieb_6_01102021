@@ -39,3 +39,5 @@ Openclassroom@ D:\Openclassroom
 in frontend
 npm install
 npm install --save-dev run-script-os
+----------------
+npm install --save maskdata

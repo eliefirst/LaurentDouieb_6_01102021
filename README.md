@@ -2,19 +2,14 @@
 
 ## Installation ##
 
-Avant d'installer les dépendances, exécutez la commande suivante dans votre terminal : 
 
 - `cd backend`
 
-1) Installez npm (gestionnaire de paquets Node JS) :
-
 - `npm install`
 
-2) Installez nodemon :
 
 - `npm install -g nodemon`
 
-3) Installez toutes les dépendances présentes dans "package.json" :
 
 - "bcrypt": "^5.0.1", = `npm install --save bcrypt`
 - "cors": "^2.8.5", = `npm install --save cors`
@@ -29,12 +24,11 @@ Avant d'installer les dépendances, exécutez la commande suivante dans votre te
 - "multer": "^1.4.3" = `npm install --save multer`
 - "password-validator": "^5.1.1" = `npm install password-validator`
 
-4) Veuillez créer un fichier '.env' à la racine du dossier (backend), veuillez renseigner les variables suivantes :
 
 MONGO_DB=mongodb+srv://elie:ut4h0us123@cluster0.oqvpj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 TOKEN_SECRET_KEY=RANDOM_TOKEN_SECRET
 
-5) Si le dossier 'images' ne figure pas dans les dossiers du backend, veuillez le créer (s'il est manquant vous ne pourrez pas télécharger une image si vous voulez créer ou modifer une sauce en cliquant sur 'ADD SAUCE')
+
 
 ## Utilisation ##
 
@@ -46,9 +40,6 @@ Si le serveur fonctionne le terminal doit afficher :
 Si vous êtes bien connecté à la base de données le terminal doit afficher : 
 "Connexion à MongoDB réussie !"
 
-L'application devrait se recharger automatiquement quand vous modifiez un fichier.
-
-Utilsez `Ctrl+C` dans votre terminal pour arrêter nodemon.
 
 
 

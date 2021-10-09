@@ -1,7 +1,7 @@
 // Importation de Mongoose permettant la création de schéma de données pour MongoDB
 const mongoose = require('mongoose');
 
-// Création d'un schéma de données pour la fonction likeOrDislikeSauce (./backend/controllers/sauces)
+// Schéma de données pour la fonction likeOrDislikeSauce (./backend/controllers/sauces)
 const likeSchema = mongoose.Schema({
     userId: { type: String, required: true },
     like: { type: Number, required: true },

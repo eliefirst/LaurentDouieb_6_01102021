@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 // Création d'un schéma de données pour les sauces (utilisation dans les fonctions dans ./backend/controllers/sauces)
-const saucesSchema = mongoose.Schema ({
+const saucesSchema = mongoose.Schema({
     userId: { type: String, required: true },
     name: { type: String, required: true },
     manufacturer: { type: String, required: true },
@@ -17,4 +17,4 @@ const saucesSchema = mongoose.Schema ({
 });
 
 // Exportation du schéma de données pour l'exploiter comme modèle dans le projet avec le nom du modèle et la constante correspondante
-module.exports = mongoose.model('Sauces', saucesSchema); 
+module.exports = mongoose.model('Sauces', saucesSchema);
